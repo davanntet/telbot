@@ -40,7 +40,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     #html_text = to_html(to_markdown(response.text).data)
     # await update.message.sender_chat()
     await update.message.reply_text(rf"{response.text}",parse_mode='Markdown')
-genai.configure(api_key="AIzaSyDDdSKjMo-hk26-KmRY5x49n53ezSnu8is")
+genai.configure(api_key="api-key-here")
 model = genai.GenerativeModel('gemini-pro')
 
 
@@ -51,7 +51,7 @@ def get_input(update, context):
 def main() -> None:
     """Start the bot."""
     # Create the Application and pass it your bot's token.
-    application = Application.builder().token("7100379183:AAHMe9HMkv9YvzagRQRNabl9PfRmZeQ6em8").build()
+    application = Application.builder().token("token?").build()
     # on different commands - answer in Telegram
     # application.add_handler(CommandHandler("start", start))
     # application.add_handler(CommandHandler("help", help_command))
