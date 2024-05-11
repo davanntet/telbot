@@ -12,12 +12,15 @@ from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 import telegram
 
+from html import escape
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
+    escaped_name = escape(user.first_name)
     await update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
-        reply_markup=ForceReply(selective=True),
+        rf"Hi <a href='tg://user?id={user.id}'>{escaped_name}</a>!",
+        reply_to_message_id=update.message.message_id,
     )
     #await update.message.reply_text(f"/start for start \n /help for help")
 
@@ -35,7 +38,8 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
     response = model.generate_content(update.message.text)
     #html_text = to_html(to_markdown(response.text).data)
-    await update.message.reply_text(rf"{response.text}",parse_mode='Markdown',reply_markup=ForceReply(selective=True))
+    # await update.message.sender_chat()
+    await update.message.reply_text(rf"{response.text}",parse_mode='Markdown')
 genai.configure(api_key="AIzaSyDDdSKjMo-hk26-KmRY5x49n53ezSnu8is")
 model = genai.GenerativeModel('gemini-pro')
 
